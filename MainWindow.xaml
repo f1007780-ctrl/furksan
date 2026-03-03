@@ -1,0 +1,402 @@
+﻿<Window x:Class="IProSensorPanel.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:IProSensorPanel"
+        Title="IPro Sensor Panel"
+        Width="216"
+        Height="340"
+        WindowStartupLocation="Manual"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="True"
+        Loaded="Window_Loaded">
+
+    <Window.Resources>
+
+        <!-- Mini sekme buton stili -->
+        <Style x:Key="MiniTabBtn" TargetType="Button">
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Padding" Value="8,0"/>
+            <Setter Property="Margin" Value="6,0,0,0"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="#2F63C7"/>
+            <Setter Property="BorderBrush" Value="#D6DBE3"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="8"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ========== SAYFA ŞABLONLARI ========== -->
+
+        <!-- PANEL (S1-S5 kartların aynen) -->
+        <DataTemplate DataType="{x:Type local:PanelPageVm}">
+            <ScrollViewer Margin="8,8,8,6" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+
+                    <!-- S1 -->
+                    <Border CornerRadius="12" Background="#FFFFFF" BorderBrush="#D6DBE3" BorderThickness="1" Padding="10" Margin="0,0,0,6">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Width="10" Height="10" CornerRadius="3"
+                                    Background="{Binding S1.TempBrush, Mode=OneWay}"
+                                    VerticalAlignment="Center" Margin="0,0,8,0"/>
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="S1" FontSize="10" Foreground="#6C7686"/>
+                                <TextBlock FontSize="15" FontWeight="SemiBold" Foreground="#2B2F36">
+                                    <Run Text="{Binding S1.TText, Mode=OneWay}"/><Run Text="°C   "/>
+                                    <Run Text="{Binding S1.HText, Mode=OneWay}"/><Run Text="%"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- S2 -->
+                    <Border CornerRadius="12" Background="#FFFFFF" BorderBrush="#D6DBE3" BorderThickness="1" Padding="10" Margin="0,0,0,6">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Width="10" Height="10" CornerRadius="3"
+                                    Background="{Binding S2.TempBrush, Mode=OneWay}"
+                                    VerticalAlignment="Center" Margin="0,0,8,0"/>
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="S2" FontSize="10" Foreground="#6C7686"/>
+                                <TextBlock FontSize="15" FontWeight="SemiBold" Foreground="#2B2F36">
+                                    <Run Text="{Binding S2.TText, Mode=OneWay}"/><Run Text="°C   "/>
+                                    <Run Text="{Binding S2.HText, Mode=OneWay}"/><Run Text="%"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- S3 -->
+                    <Border CornerRadius="12" Background="#FFFFFF" BorderBrush="#D6DBE3" BorderThickness="1" Padding="10" Margin="0,0,0,6">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Width="10" Height="10" CornerRadius="3"
+                                    Background="{Binding S3.TempBrush, Mode=OneWay}"
+                                    VerticalAlignment="Center" Margin="0,0,8,0"/>
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="S3" FontSize="10" Foreground="#6C7686"/>
+                                <TextBlock FontSize="15" FontWeight="SemiBold" Foreground="#2B2F36">
+                                    <Run Text="{Binding S3.TText, Mode=OneWay}"/><Run Text="°C   "/>
+                                    <Run Text="{Binding S3.HText, Mode=OneWay}"/><Run Text="%"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- S4 -->
+                    <Border CornerRadius="12" Background="#FFFFFF" BorderBrush="#D6DBE3" BorderThickness="1" Padding="10" Margin="0,0,0,6">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Width="10" Height="10" CornerRadius="3"
+                                    Background="{Binding S4.TempBrush, Mode=OneWay}"
+                                    VerticalAlignment="Center" Margin="0,0,8,0"/>
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="S4" FontSize="10" Foreground="#6C7686"/>
+                                <TextBlock FontSize="15" FontWeight="SemiBold" Foreground="#2B2F36">
+                                    <Run Text="{Binding S4.TText, Mode=OneWay}"/><Run Text="°C   "/>
+                                    <Run Text="{Binding S4.HText, Mode=OneWay}"/><Run Text="%"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- TL (S5) -->
+                    <Border CornerRadius="12"
+                            Background="#FFFFFF"
+                            BorderBrush="#2F63C7"
+                            BorderThickness="1.5"
+                            Padding="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Width="12" Height="12" CornerRadius="3"
+                                Background="{Binding S5.TempBrush, Mode=OneWay}"
+                                VerticalAlignment="Center" Margin="0,0,8,0"/>
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="TL | Sıvı Probu (PBS)" FontSize="10" Foreground="#6C7686"/>
+                                <TextBlock FontSize="22" FontWeight="SemiBold" Foreground="#2F63C7">
+                                <Run Text="{Binding S5.TText, Mode=OneWay}"/><Run Text="°C"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                </StackPanel>
+            </ScrollViewer>
+        </DataTemplate>
+
+        <!-- AYARLAR -->
+        <DataTemplate DataType="{x:Type local:SettingsPageVm}">
+            <StackPanel Margin="8">
+                <TextBlock Text="Bağlantı" FontSize="11" FontWeight="SemiBold" Foreground="#2B2F36"/>
+
+                <TextBlock Text="COM Port" FontSize="10" Foreground="#6C7686" Margin="0,8,0,4"/>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <ComboBox Grid.Column="0"
+                              Height="24"
+                              ItemsSource="{Binding AvailablePorts, Mode=OneWay}"
+                              SelectedItem="{Binding SelectedPort, Mode=TwoWay}"
+                              FontSize="11"
+                              Margin="0,0,6,0"/>
+
+                    <Button Grid.Column="1"
+                            Width="28" Height="24"
+                            Content="⟳"
+                            Cursor="Hand"
+                            Command="{Binding RefreshPortsCommand}"
+                            Background="#FFFFFF"
+                            BorderBrush="#D6DBE3"
+                            BorderThickness="1"/>
+                </Grid>
+
+                <Grid Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Column="0"
+                              IsChecked="{Binding AutoConnect, Mode=TwoWay}"
+                              VerticalAlignment="Center"
+                              Margin="0,0,6,0"/>
+
+                    <TextBlock Grid.Column="1"
+                               VerticalAlignment="Center"
+                               FontSize="10"
+                               Foreground="#6C7686"
+                               Text="Otomatik bul &amp; bağlan"/>
+                </Grid>
+
+                <Button Height="26"
+                        Margin="0,10,0,0"
+                        Padding="10,0"
+                        Cursor="Hand"
+                        Command="{Binding ToggleConnectCommand}"
+                        Background="#2F63C7"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Content="{Binding ConnectButtonText, Mode=OneWay}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="9" Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                <TextBlock Text="{Binding InfoText, Mode=OneWay}"
+                           FontSize="10"
+                           Foreground="#6C7686"
+                           Margin="0,10,0,0"
+                           TextWrapping="Wrap"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- KALİBRASYON -->
+        <DataTemplate DataType="{x:Type local:CalibrationPageVm}">
+            <StackPanel Margin="8">
+                <TextBlock Text="Kalibrasyon (Offset °C)" FontSize="11" FontWeight="SemiBold" Foreground="#2B2F36"/>
+                <TextBlock Text="Her sensör için ölçüme eklenecek offset değerini yaz."
+                           FontSize="10" Foreground="#6C7686" Margin="0,6,0,10"/>
+
+                <ItemsControl ItemsSource="{Binding Items, Mode=OneWay}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,0,0,6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="{Binding Name}" FontSize="10" Foreground="#6C7686" VerticalAlignment="Center"/>
+                                <TextBox Grid.Column="1"
+                                         Height="24"
+                                         FontSize="11"
+                                         Text="{Binding Offset, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                    <Button Style="{StaticResource MiniTabBtn}" Margin="0,0,6,0" Content="Kaydet" Command="{Binding SaveCommand}"/>
+                    <Button Style="{StaticResource MiniTabBtn}" Margin="0,0,6,0" Content="Yükle"  Command="{Binding LoadCommand}"/>
+                </StackPanel>
+
+                <TextBlock Text="{Binding InfoText, Mode=OneWay}"
+                           FontSize="10"
+                           Foreground="#6C7686"
+                           Margin="0,10,0,0"
+                           TextWrapping="Wrap"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- VERİ -->
+        <DataTemplate DataType="{x:Type local:DataPageVm}">
+            <StackPanel Margin="8">
+                <TextBlock Text="Veri" FontSize="11" FontWeight="SemiBold" Foreground="#2B2F36"/>
+                <TextBlock Text="{Binding Footer, Mode=OneWay}" FontSize="10" Foreground="#6C7686" Margin="0,6,0,8"/>
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                    <Button Style="{StaticResource MiniTabBtn}" Margin="0,0,6,0" Content="CSV"     Command="{Binding ExportCsvCommand}"/>
+                    <Button Style="{StaticResource MiniTabBtn}" Margin="0,0,6,0" Content="Temizle" Command="{Binding ClearCommand}"/>
+                </StackPanel>
+
+                <DataGrid ItemsSource="{Binding Rows, Mode=OneWay}"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          HeadersVisibility="Column"
+                          Height="185"
+                          FontSize="10"
+                          Background="#FFFFFF"
+                          BorderBrush="#D6DBE3"
+                          BorderThickness="1">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Zaman" Binding="{Binding Timestamp}" Width="*"/>
+                        <DataGridTextColumn Header="S1" Binding="{Binding S1}" Width="38"/>
+                        <DataGridTextColumn Header="S2" Binding="{Binding S2}" Width="38"/>
+                        <DataGridTextColumn Header="S3" Binding="{Binding S3}" Width="38"/>
+                        <DataGridTextColumn Header="S4" Binding="{Binding S4}" Width="38"/>
+                        <DataGridTextColumn Header="S5" Binding="{Binding S5}" Width="38"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </DataTemplate>
+
+    </Window.Resources>
+
+    <Grid Margin="6">
+        <Border CornerRadius="14"
+                Background="#F2F3F5"
+                BorderBrush="#2F63C7"
+                BorderThickness="2">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="16" ShadowDepth="0" Opacity="0.18"/>
+            </Border.Effect>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="44"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="26"/>
+                </Grid.RowDefinitions>
+
+                <!-- HEADER -->
+                <Border Grid.Row="0"
+                        Background="#FFFFFF"
+                        CornerRadius="12,12,0,0"
+                        BorderBrush="#D6DBE3"
+                        BorderThickness="0,0,0,1"
+                        MouseLeftButtonDown="TopBar_MouseLeftButtonDown">
+                    <Grid Margin="10,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Sensor Panel" FontSize="12" FontWeight="SemiBold" Foreground="#2B2F36"/>
+                            <TextBlock Text="{Binding Status, Mode=OneWay}" FontSize="10" Foreground="#6C7686"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+
+                            <Button Style="{StaticResource MiniTabBtn}" Content="Panel" Command="{Binding ShowPanelCommand}" Margin="0,0,6,0"/>
+                            <Button Style="{StaticResource MiniTabBtn}" Content="Ayar"  Command="{Binding ShowSettingsCommand}" Margin="0,0,6,0"/>
+                            <Button Style="{StaticResource MiniTabBtn}" Content="Kal"   Command="{Binding ShowCalibrationCommand}" Margin="0,0,6,0"/>
+                            <Button Style="{StaticResource MiniTabBtn}" Content="Veri"  Command="{Binding ShowDataCommand}"/>
+
+                            <Button Width="30" Height="24"
+                                    Background="#E7EFFF"
+                                    Foreground="#2F63C7"
+                                    BorderBrush="#D6DBE3"
+                                    BorderThickness="1"
+                                    Cursor="Hand"
+                                    Click="Close_Click"
+                                    Content="✕"
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border CornerRadius="9"
+                                                Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- CONTENT -->
+                <ContentControl Grid.Row="1"
+                                Content="{Binding CurrentPage, Mode=OneWay}"/>
+
+                <!-- FOOTER -->
+                <Border Grid.Row="2"
+                        Background="#FFFFFF"
+                        CornerRadius="0,0,12,12"
+                        BorderBrush="#D6DBE3"
+                        BorderThickness="0,1,0,0">
+                    <Grid Margin="10,0">
+                        <TextBlock VerticalAlignment="Center"
+                                   Foreground="#6C7686"
+                                   FontSize="10"
+                                   Text="{Binding PortInfo, Mode=OneWay}"/>
+                    </Grid>
+                </Border>
+
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

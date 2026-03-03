@@ -1,0 +1,8 @@
+﻿public void Update(SensorValues v)
+{
+    S1.SetValue(v.S1);
+    S2.SetValue(v.S2);
+    S3.SetValue(v.S3);
+    S4.SetValue(v.S4);
+    S5.SetValue(v.S5);
+}

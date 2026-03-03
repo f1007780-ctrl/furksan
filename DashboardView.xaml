@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="IProSensorPanel.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:IProSensorPanel"
+             Background="Transparent"
+             DataContext="{Binding Dashboard, RelativeSource={RelativeSource AncestorType=Window}}">
+    <Grid>
+        <!-- ✅ ESKİ KART ARAYÜZÜNÜ BURAYA YAPIŞTIR -->
+        <!-- Örn: daha önce MainWindow.xaml içindeki sensör kartlarını kapsayan Grid/WrapPanel bloğu -->
+
+        <!-- ====== BURADAN SONRASINI SİL, KENDİ KART BLOĞUNU YAPIŞTIR ====== -->
+        <TextBlock Text="Kart bloğunu buraya yapıştır (MainWindow’daki kart Grid’i)"
+                   Foreground="#AAB3C5"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"/>
+        <!-- ====== BURAYA KADAR ====== -->
+    </Grid>
+</UserControl>
