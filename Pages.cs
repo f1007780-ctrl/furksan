@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -26,6 +27,7 @@ public sealed class DataRowVm
     public string S3 { get; set; } = "";
     public string S4 { get; set; } = "";
     public string S5 { get; set; } = "";
+    public string Raw { get; set; } = "";
 }
 
 public sealed class DataPageVm : INotifyPropertyChanged
@@ -39,6 +41,7 @@ public sealed class DataPageVm : INotifyPropertyChanged
 
     public ICommand ExportCsvCommand { get; }
     public ICommand ClearCommand { get; }
+    public ICommand OpenLogFolderCommand { get; }
 
     private static string LogDir =>
         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -48,9 +51,10 @@ public sealed class DataPageVm : INotifyPropertyChanged
     {
         ExportCsvCommand = new RelayCommand(_ => ExportCsv());
         ClearCommand = new RelayCommand(_ => { Rows.Clear(); Footer = "0 satır"; });
+        OpenLogFolderCommand = new RelayCommand(_ => OpenLogFolder());
     }
 
-    public void Add(string s1, string s2, string s3, string s4, string s5)
+    public void Add(string s1, string s2, string s3, string s4, string s5, string raw)
     {
         Rows.Insert(0, new DataRowVm
         {
@@ -59,11 +63,17 @@ public sealed class DataPageVm : INotifyPropertyChanged
             S2 = s2,
             S3 = s3,
             S4 = s4,
-            S5 = s5
+            S5 = s5,
+            Raw = raw
         });
 
         if (Rows.Count > 200) Rows.RemoveAt(Rows.Count - 1);
         Footer = $"{Rows.Count} satır (son 200)";
+    }
+
+    public void AddRaw(string raw)
+    {
+        Add("-", "-", "-", "-", "-", raw);
     }
 
     private void ExportCsv()
@@ -72,12 +82,117 @@ public sealed class DataPageVm : INotifyPropertyChanged
         var path = Path.Combine(LogDir, $"export_{DateTime.Now:yyyyMMdd_HHmmss}.csv");
 
         var sb = new StringBuilder();
-        sb.AppendLine("Timestamp,S1,S2,S3,S4,S5");
+        sb.AppendLine("Timestamp,S1,S2,S3,S4,S5,Raw");
         foreach (var r in Rows)
-            sb.AppendLine($"{r.Timestamp},{r.S1},{r.S2},{r.S3},{r.S4},{r.S5}");
+            sb.AppendLine($"{r.Timestamp},{r.S1},{r.S2},{r.S3},{r.S4},{r.S5},{Escape(r.Raw)}");
 
         File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
         Footer = $"Export: {path}";
+    }
+
+    private void OpenLogFolder()
+    {
+        Directory.CreateDirectory(LogDir);
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = LogDir,
+            UseShellExecute = true
+        });
+    }
+
+    private static string Escape(string value)
+        => value.Contains(',') || value.Contains('"')
+            ? $"\"{value.Replace("\"", "\"\"")}\""
+            : value;
+
+    private void OnPropertyChanged([CallerMemberName] string? n = null)
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(n));
+}
+
+public sealed class SettingsPageVm : INotifyPropertyChanged
+{
+    private readonly SensorPanelViewModel _root;
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public ObservableCollection<string> AvailablePorts => _root.AvailablePorts;
+
+    public string? SelectedPort
+    {
+        get => _root.SelectedPort;
+        set
+        {
+            _root.SelectedPort = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public int BaudRate
+    {
+        get => _root.BaudRate;
+        set
+        {
+            _root.BaudRate = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool AutoConnect
+    {
+        get => _root.AutoConnect;
+        set
+        {
+            _root.AutoConnect = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool AutoReconnect
+    {
+        get => _root.AutoReconnect;
+        set
+        {
+            _root.AutoReconnect = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool EnableLogging
+    {
+        get => _root.EnableLogging;
+        set
+        {
+            _root.EnableLogging = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string ConnectButtonText => _root.ConnectButtonText;
+
+    private string _infoText = "";
+    public string InfoText { get => _infoText; private set { _infoText = value; OnPropertyChanged(); } }
+
+    public ICommand RefreshPortsCommand { get; }
+    public ICommand ToggleConnectCommand { get; }
+
+    public SettingsPageVm(SensorPanelViewModel root)
+    {
+        _root = root;
+        RefreshPortsCommand = new RelayCommand(_ => _root.RefreshPorts());
+        ToggleConnectCommand = new RelayCommand(_ => _root.ToggleConnect());
+        SyncFromRoot();
+    }
+
+    public void SyncFromRoot()
+    {
+        OnPropertyChanged(nameof(SelectedPort));
+        OnPropertyChanged(nameof(BaudRate));
+        OnPropertyChanged(nameof(AutoConnect));
+        OnPropertyChanged(nameof(AutoReconnect));
+        OnPropertyChanged(nameof(EnableLogging));
+        OnPropertyChanged(nameof(ConnectButtonText));
+
+        InfoText = $"Port: {_root.SelectedPort ?? "-"} | Baud: {_root.BaudRate} | Durum: {_root.Status}";
     }
 
     private void OnPropertyChanged([CallerMemberName] string? n = null)

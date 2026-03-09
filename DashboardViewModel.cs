@@ -12,17 +12,17 @@ public sealed class DashboardViewModel : INotifyPropertyChanged
     public SensorCardVm S4 { get; } = new("S4");
     public SensorCardVm S5 { get; } = new("S5");
 
-    // SensorValues şu an 4 değer ise, S5'i ayrı güncelleyeceğiz 
     public void Update(SensorValues v)
     {
-        S1.SetValue(v.S1);
-        S2.SetValue(v.S2);
-        S3.SetValue(v.S3);
-        S4.SetValue(v.S4);
+        S1.SetTemp(v.S1);
+        S2.SetTemp(v.S2);
+        S3.SetTemp(v.S3);
+        S4.SetTemp(v.S4);
+        S5.SetTemp(v.S5);
     }
 
     public void UpdateS5(double s5)
     {
-        S5.SetValue(s5);
+        S5.SetTemp(s5);
     }
 }
