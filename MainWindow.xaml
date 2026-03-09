@@ -194,6 +194,11 @@
                             BorderThickness="1"/>
                 </Grid>
 
+                <TextBlock Text="BaudRate" FontSize="10" Foreground="#6C7686" Margin="0,8,0,4"/>
+                <TextBox Height="24"
+                         FontSize="11"
+                         Text="{Binding BaudRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
                 <Grid Margin="0,8,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -210,6 +215,42 @@
                                FontSize="10"
                                Foreground="#6C7686"
                                Text="Otomatik bul &amp; bağlan"/>
+                </Grid>
+
+                <Grid Margin="0,6,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Column="0"
+                              IsChecked="{Binding AutoReconnect, Mode=TwoWay}"
+                              VerticalAlignment="Center"
+                              Margin="0,0,6,0"/>
+
+                    <TextBlock Grid.Column="1"
+                               VerticalAlignment="Center"
+                               FontSize="10"
+                               Foreground="#6C7686"
+                               Text="Otomatik yeniden bağlan"/>
+                </Grid>
+
+                <Grid Margin="0,6,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Column="0"
+                              IsChecked="{Binding EnableLogging, Mode=TwoWay}"
+                              VerticalAlignment="Center"
+                              Margin="0,0,6,0"/>
+
+                    <TextBlock Grid.Column="1"
+                               VerticalAlignment="Center"
+                               FontSize="10"
+                               Foreground="#6C7686"
+                               Text="Log kaydı aktif"/>
                 </Grid>
 
                 <Button Height="26"
@@ -284,8 +325,9 @@
                 <TextBlock Text="{Binding Footer, Mode=OneWay}" FontSize="10" Foreground="#6C7686" Margin="0,6,0,8"/>
 
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                    <Button Style="{StaticResource MiniTabBtn}" Margin="0,0,6,0" Content="CSV"     Command="{Binding ExportCsvCommand}"/>
-                    <Button Style="{StaticResource MiniTabBtn}" Margin="0,0,6,0" Content="Temizle" Command="{Binding ClearCommand}"/>
+                    <Button Style="{StaticResource MiniTabBtn}" Margin="0,0,6,0" Content="CSV"      Command="{Binding ExportCsvCommand}"/>
+                    <Button Style="{StaticResource MiniTabBtn}" Margin="0,0,6,0" Content="Temizle"  Command="{Binding ClearCommand}"/>
+                    <Button Style="{StaticResource MiniTabBtn}" Margin="0,0,6,0" Content="Log Klasörü" Command="{Binding OpenLogFolderCommand}"/>
                 </StackPanel>
 
                 <DataGrid ItemsSource="{Binding Rows, Mode=OneWay}"
@@ -304,6 +346,7 @@
                         <DataGridTextColumn Header="S3" Binding="{Binding S3}" Width="38"/>
                         <DataGridTextColumn Header="S4" Binding="{Binding S4}" Width="38"/>
                         <DataGridTextColumn Header="S5" Binding="{Binding S5}" Width="38"/>
+                        <DataGridTextColumn Header="Ham" Binding="{Binding Raw}" Width="*"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>

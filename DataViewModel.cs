@@ -39,6 +39,7 @@ public sealed class DataViewModel : INotifyPropertyChanged
             S2 = values.S2.ToString("0.0", CultureInfo.InvariantCulture),
             S3 = values.S3.ToString("0.0", CultureInfo.InvariantCulture),
             S4 = values.S4.ToString("0.0", CultureInfo.InvariantCulture),
+            S5 = values.S5.ToString("0.0", CultureInfo.InvariantCulture),
             Raw = raw
         };
 
@@ -58,6 +59,7 @@ public sealed class DataViewModel : INotifyPropertyChanged
             S2 = "-",
             S3 = "-",
             S4 = "-",
+            S5 = "-",
             Raw = raw
         };
 
@@ -79,9 +81,9 @@ public sealed class DataViewModel : INotifyPropertyChanged
             using var sw = new StreamWriter(path, append: true, Encoding.UTF8);
 
             if (isNew)
-                sw.WriteLine("Timestamp,S1,S2,S3,S4,Raw");
+                sw.WriteLine("Timestamp,S1,S2,S3,S4,S5,Raw");
 
-            sw.WriteLine($"{Esc(row.Timestamp)},{Esc(row.S1)},{Esc(row.S2)},{Esc(row.S3)},{Esc(row.S4)},{Esc(row.Raw)}");
+            sw.WriteLine($"{Esc(row.Timestamp)},{Esc(row.S1)},{Esc(row.S2)},{Esc(row.S3)},{Esc(row.S4)},{Esc(row.S5)},{Esc(row.Raw)}");
         }
         catch
         {
@@ -103,9 +105,9 @@ public sealed class DataViewModel : INotifyPropertyChanged
         var path = Path.Combine(_settings.LogFolder, $"export_{DateTime.Now:yyyyMMdd_HHmmss}.csv");
 
         using var sw = new StreamWriter(path, false, Encoding.UTF8);
-        sw.WriteLine("Timestamp,S1,S2,S3,S4,Raw");
+        sw.WriteLine("Timestamp,S1,S2,S3,S4,S5,Raw");
         foreach (var r in Rows)
-            sw.WriteLine($"{r.Timestamp},{r.S1},{r.S2},{r.S3},{r.S4},{(r.Raw ?? "").Replace("\n", " ").Replace("\r", " ")}");
+            sw.WriteLine($"{r.Timestamp},{r.S1},{r.S2},{r.S3},{r.S4},{r.S5},{(r.Raw ?? "").Replace("\n", " ").Replace("\r", " ")}");
 
         Footer = $"Dışa aktarıldı: {path}";
     }
